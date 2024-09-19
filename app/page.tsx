@@ -1,18 +1,20 @@
-import ChatWindow from "@/components/ChatWindow"
-import SideBar from "@/components/SideBar"
-import TopBar from "@/components/TopBar"
+import ChatWindow from "@/components/ChatWindow";
+import MessageInput from "@/components/MessageInput";
+import SideBar from "@/components/SideBar";
+import TopBar from "@/components/TopBar";
 
-const page = () => {
+const ChatPage = () => {
   return (
-    <div className='text-black flex h-screen'>
+    <div className="text-black flex h-screen">
       <SideBar />
-      {/* Main Content  */}
-      <div className="flex flex-col flex-1 w-0 overflow-hidden">
-      <TopBar />
-      <ChatWindow />
-      </div>
+      {/* Main Content */}
+      <main className="flex flex-col flex-1 w-0 overflow-hidden">
+        <TopBar />
+        <ChatWindow />
+        <MessageInput />
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default ChatPage;
