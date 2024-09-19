@@ -6,8 +6,11 @@ const page = () => {
   return (
     <div className='text-black flex h-screen'>
       <SideBar />
-      <ChatWindow />
+      {/* Main Content  */}
+      <div className="flex flex-col flex-1 w-0 overflow-hidden">
       <TopBar />
+      <ChatWindow />
+      </div>
     </div>
   )
 }
