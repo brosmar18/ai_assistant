@@ -1,8 +1,14 @@
-import React from 'react'
+import ChatWindow from "@/components/ChatWindow"
+import SideBar from "@/components/SideBar"
+import TopBar from "@/components/TopBar"
 
 const page = () => {
   return (
-    <div>Home Page</div>
+    <div className='text-black flex h-screen'>
+      <SideBar />
+      <ChatWindow />
+      <TopBar />
+    </div>
   )
 }
 
