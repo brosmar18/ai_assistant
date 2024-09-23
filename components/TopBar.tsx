@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { IoIosSearch, IoMdMenu } from "react-icons/io";
+import { IoIosSearch, IoMdMenu} from "react-icons/io";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
@@ -28,28 +28,28 @@ const TopBar = () => {
 
       {/* Sidebar for Mobile */}
       <Sheet open={open} onOpenChange={toggleSheet}>
-        <SheetContent side="left" className="bg-white p-4">
+        <SheetContent side="left" className="bg-black p-4">
           <SheetHeader>
-            <SheetTitle className="text-lg font-bold text-black">
+            <SheetTitle className="text-lg font-bold text-white">
               Menu
             </SheetTitle>
           </SheetHeader>
           <nav className="space-y-4 mt-4">
             <Link
               href="/"
-              className="block text-gray-700 text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-white text-base font-medium hover:bg-gray-200 p-2 rounded"
             >
               Dashboard
             </Link>
             <Link
               href="/messages"
-              className="block text-gray-700 text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-white  text-base font-medium hover:bg-gray-200 p-2 rounded"
             >
               Messages
             </Link>
             <Link
               href="/settings"
-              className="block text-gray-700 text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-white text-base font-medium hover:bg-gray-200 p-2 rounded"
             >
               Settings
             </Link>
