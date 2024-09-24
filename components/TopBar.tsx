@@ -49,7 +49,7 @@ const TopBar = () => {
             </Link>
             <Link
               href="/settings"
-              className="block text-white text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-white  text-base font-medium hover:bg-gray-200 p-2 rounded"
             >
               Settings
             </Link>
