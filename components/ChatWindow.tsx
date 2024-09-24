@@ -1,6 +1,5 @@
 "use client";
 
-
 import React from "react";
 import Image from "next/image";
 import { useAtom } from "jotai";
@@ -50,9 +49,9 @@ const ChatWindow = () => {
           </div>
         </div>
       </div>
-      <div>
-        <h2>Assistant ID: </h2>
-        <p>{assistantId}</p>
+      <div className="px-4 py-2">
+        <h2 className="text-lg font-semibold">Assistant ID:</h2>
+        <p className="text-sm text-gray-700">{assistantId || "Loading..."}</p>
       </div>
     </main>
   );

@@ -1,34 +1,57 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { currentUser } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 import { connectToDatabase } from '../../../../lib/mongodb';
 import UserThread from '../../../../models/userThread';
+import OpenAI from "openai";
 
-export async function POST(request: NextRequest) {
-  await connectToDatabase();
+export async function GET() {
+  const user = await currentUser();
 
-  try {
-    const { userId, threadId } = await request.json();
-    const userThread = new UserThread({ userId, threadId });
-    await userThread.save();
-    return NextResponse.json(userThread, { status: 201 });
-  } catch (error) {
-    console.error('Error creating userThread:', error);
+  if (!user) {
     return NextResponse.json(
-      { error: 'Failed to create userThread' },
-      { status: 500 }
+      {
+        success: false,
+        message: "Unauthorized",
+      },
+      { status: 401 }
     );
   }
-}
 
-export async function GET(request: NextRequest) {
   await connectToDatabase();
 
+  const userId = user.id;
+
   try {
-    const userThreads = await UserThread.find({});
-    return NextResponse.json(userThreads, { status: 200 });
+    // Get user thread from database
+    let userThread = await UserThread.findOne({ userId });
+
+    const openai = new OpenAI();
+
+    if (userThread) {
+      // If it exists, retrieve the thread from OpenAI
+      const thread = await openai.beta.threads.retrieve(userThread.threadId);
+
+      // Return the thread to the user
+      return NextResponse.json(thread, { status: 200 });
+    } else {
+      // If it doesn't exist, create it from OpenAI
+      const thread = await openai.beta.threads.create();
+
+      // Save it to the database
+      userThread = new UserThread({
+        userId,
+        threadId: thread.id,
+      });
+
+      await userThread.save();
+
+      // Return the thread to the user
+      return NextResponse.json(thread, { status: 201 });
+    }
   } catch (error) {
-    console.error('Error fetching userThreads:', error);
+    console.error('Error fetching or creating userThread:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch userThreads' },
+      { error: 'Failed to fetch or create user thread' },
       { status: 500 }
     );
   }

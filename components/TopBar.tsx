@@ -1,13 +1,12 @@
 "use client";
 
-
 import React, { useState } from "react";
-import Image from "next/image";
 import { IoIosSearch, IoMdMenu} from "react-icons/io";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
+import { UserButton } from "@clerk/nextjs"; // Import UserButton from Clerk
 
 const TopBar = () => {
   const [open, setOpen] = useState(false);
@@ -68,13 +67,8 @@ const TopBar = () => {
             <IoIosSearch className="w-5 h-5 text-black" />
           </Button>
         </div>
-        <Image
-          src="/profile1.png"
-          alt="Avatar"
-          width={32}
-          height={32}
-          className="w-8 h-8 rounded-full"
-        />
+        {/* Replace Image with Clerk UserButton for account management */}
+        <UserButton />
       </div>
     </header>
   );
