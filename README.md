@@ -21,3 +21,7 @@ Sample response:
 ## Run
 Have an assistant review all messages inside a thread, and use pre-trained instructions to generate a response. 
 
+First you create a Run and then retrieve a run. 
+
+
+

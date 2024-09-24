@@ -1,7 +1,14 @@
+"use client";
+
+
 import React from "react";
 import Image from "next/image";
+import { useAtom } from "jotai";
+import { assistantIdAtom } from "@/state/atoms";
 
 const ChatWindow = () => {
+  const [assistantId] = useAtom(assistantIdAtom);
+
   return (
     <main className="flex-1 overflow-y-auto">
       <div className="px-4 py-6">
@@ -42,6 +49,10 @@ const ChatWindow = () => {
             />
           </div>
         </div>
+      </div>
+      <div>
+        <h2>Assistant ID: </h2>
+        <p>{assistantId}</p>
       </div>
     </main>
   );
