@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface ContentItem {
   type: string;
@@ -42,7 +43,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
             const time = new Date(message.created_at * 1000).toLocaleTimeString();
 
             if (message.role === 'assistant') {
-              // Incoming Message
+              // Incoming Message (Assistant)
               return (
                 <div key={message.id} className="flex">
                   <Image
@@ -54,14 +55,16 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
                   />
                   <div className="ml-3">
                     <div className="px-4 py-2 bg-white rounded-lg shadow">
-                      <p className="text-sm text-gray-700">{messageTexts}</p>
+                      <div className="text-sm text-gray-700 prose">
+                        <ReactMarkdown>{messageTexts}</ReactMarkdown>
+                      </div>
                     </div>
                     <span className="text-xs text-gray-500">{time}</span>
                   </div>
                 </div>
               );
             } else {
-              // Outgoing Message
+              // Outgoing Message (User)
               return (
                 <div key={message.id} className="flex justify-end">
                   <div className="mr-3 text-right">
