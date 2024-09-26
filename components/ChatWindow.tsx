@@ -1,6 +1,6 @@
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
-// Define ContentItem interface
 interface ContentItem {
   type: string;
   text: {
@@ -9,7 +9,6 @@ interface ContentItem {
   };
 }
 
-// Update Message interface
 interface Message {
   id: string;
   content: ContentItem[];
@@ -23,6 +22,12 @@ interface ChatWindowProps {
 
 const ChatWindow = ({ messages }: ChatWindowProps) => {
   console.log("Messages", messages);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to bottom when messages update
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   return (
     <main className="flex-1 overflow-y-auto">
@@ -30,15 +35,9 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
         {/* Messages */}
         <div className="space-y-4">
           {messages.map((message) => {
-            let messageTexts: string;
-
-            if (Array.isArray(message.content)) {
-              messageTexts = message.content
-                .map((contentItem: ContentItem) => contentItem.text.value)
-                .join(' ');
-            } else {
-              messageTexts = '';
-            }
+            const messageTexts = message.content
+              .map((contentItem) => contentItem.text.value)
+              .join(' ');
 
             const time = new Date(message.created_at * 1000).toLocaleTimeString();
 
@@ -47,7 +46,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               return (
                 <div key={message.id} className="flex">
                   <Image
-                    src="/assistant-avatar.png"
+                    src="/profile1.png"
                     alt="Assistant Avatar"
                     width={40}
                     height={40}
@@ -82,6 +81,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               );
             }
           })}
+          <div ref={messagesEndRef} />
         </div>
       </div>
     </main>

@@ -1,24 +1,40 @@
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { IoIosSend } from "react-icons/io";
+import React from 'react';
 
-const MessageInput = () => {
+interface MessageInputProps {
+  message: string;
+  setMessage: React.Dispatch<React.SetStateAction<string>>;
+  handleKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+  sendMessage: () => void;
+  sending: boolean;
+}
+
+const MessageInput = ({
+  message,
+  setMessage,
+  handleKeyDown,
+  sendMessage,
+  sending,
+}: MessageInputProps) => {
   return (
-    <div className="flex-shrink-0 p-4 bg-white border-t">
-      <form className="relative flex w-full">
-        <Input
+    <div className="p-4 border-t">
+      <div className="flex">
+        <input
           type="text"
-          placeholder="Type a message"
-          className="pr-12" // Add space for the button on the right side
+          className="flex-1 px-4 py-2 border rounded-l-md focus:outline-none"
+          placeholder="Type your message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+          disabled={sending}
         />
-        <Button
-          type="submit"
-          variant="default" // Or any preferred variant
-          className="absolute inset-y-0 right-0 p-2"
+        <button
+          onClick={sendMessage}
+          className="px-4 py-2 bg-blue-600 text-white rounded-r-md"
+          disabled={sending}
         >
-          <IoIosSend className="w-5 h-5 text-white" />
-        </Button>
-      </form>
+          {sending ? 'Sending...' : 'Send'}
+        </button>
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+// api/message/list/route.ts
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
@@ -19,7 +20,29 @@ export async function POST(req: Request) {
 
     const messages = messagesResponse.data; // Ensure this matches your data structure
 
-    return NextResponse.json({ messages, success: true }, { status: 200 });
+    // Remove citation markers like  from all messages
+    const sanitizedMessages = messages.map((message: any) => {
+      if (Array.isArray(message.content)) {
+        return {
+          ...message,
+          content: message.content.map((contentItem: any) => {
+            if (contentItem.text && contentItem.text.value) {
+              return {
+                ...contentItem,
+                text: {
+                  ...contentItem.text,
+                  value: contentItem.text.value.replace(/【\d+:\d+†source】/g, ''),
+                },
+              };
+            }
+            return contentItem;
+          }),
+        };
+      }
+      return message;
+    });
+
+    return NextResponse.json({ messages: sanitizedMessages, success: true }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
