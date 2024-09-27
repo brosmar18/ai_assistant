@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import { useUser } from "@clerk/nextjs"; // Import Clerk's useUser hook
 
 interface ContentItem {
   type: string;
@@ -22,7 +23,7 @@ interface ChatWindowProps {
 }
 
 const ChatWindow = ({ messages }: ChatWindowProps) => {
-  console.log("Messages", messages);
+  const { user } = useUser(); // Get the logged-in user details
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   // Scroll to bottom when messages update
@@ -47,7 +48,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               return (
                 <div key={message.id} className="flex">
                   <Image
-                    src="/profile1.png"
+                    src="/cdata_logo.png"
                     alt="Assistant Avatar"
                     width={40}
                     height={40}
@@ -74,7 +75,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
                     <span className="text-xs text-gray-500">{time}</span>
                   </div>
                   <Image
-                    src="/profile1.png"
+                    src={user?.imageUrl || "/user_avatar.png"} // Dynamically set user's avatar
                     alt="User Avatar"
                     width={40}
                     height={40}
