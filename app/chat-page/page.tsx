@@ -227,23 +227,26 @@ const ChatPage = () => {
   return (
     <div className="text-black flex h-screen">
       <SideBar />
-      <main className="relative flex flex-col flex-1 w-0 overflow-hidden bg-gray-700 text-white">
+      <main className="relative flex flex-col flex-1 w-0 bg-gray-700 text-white">
         <TopBar />
-        <div className="relative flex-1">
+        <div className="flex flex-col flex-1 relative overflow-hidden">
           {loading && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40 z-10">
               <LoadingSpinner />
             </div>
           )}
-          <ChatWindow messages={messages} />
+          {/* Updated ChatWindow wrapping to handle scrolling */}
+          <div className="flex-1 overflow-y-auto">
+            <ChatWindow messages={messages} />
+          </div>
+          <MessageInput
+            message={message}
+            setMessage={setMessage}
+            handleKeyDown={handleKeyDown}
+            sendMessage={sendMessage}
+            sending={sending}
+          />
         </div>
-        <MessageInput
-          message={message}
-          setMessage={setMessage}
-          handleKeyDown={handleKeyDown}
-          sendMessage={sendMessage}
-          sending={sending}
-        />
       </main>
     </div>
   );

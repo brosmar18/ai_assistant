@@ -41,13 +41,13 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-800 text-white">
+    <div className="flex-1 h-full overflow-y-auto bg-gray-800 text-white"> {/* Ensure full height and scrolling */}
       <div className="px-4 py-6">
         {/* Messages */}
         <div className="space-y-6">
           {messages.map((message) => {
             const messageTexts = message.content
-              .map((contentItem) => contentItem.text.value)
+              .map((contentItem) => contentItem.text.value) // Make sure we're mapping over sanitized content
               .join(' ');
 
             const time = new Date(message.created_at * 1000).toLocaleTimeString();
@@ -56,13 +56,13 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               // Incoming Message (Assistant)
               return (
                 <div key={message.id} className="flex items-start">
-                    <Image
-                      src="/cdata_logo.png"
-                      alt="Assistant Avatar"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
+                  <Image
+                    src="/cdata_logo.png"
+                    alt="Assistant Avatar"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
                   <div className="ml-3">
                     <div className="px-4 py-3 bg-white text-white rounded-xl shadow-lg shadow-gray-500/50">
                       <div className="text-sm prose">
@@ -83,18 +83,18 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
                     </div>
                     <span className="text-xs text-gray-300">{time}</span>
                   </div>
-                    <Image
-                      src={user?.imageUrl || "/user_avatar.png"} // Dynamically set user's avatar
-                      alt="User Avatar"
-                      width={40}
-                      height={40}
-                      className="rounded-full"
-                    />
+                  <Image
+                    src={user?.imageUrl || "/user_avatar.png"} // Dynamically set user's avatar
+                    alt="User Avatar"
+                    width={40}
+                    height={40}
+                    className="rounded-full"
+                  />
                 </div>
               );
             }
           })}
-          <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} /> {/* Ensure this is inside the scrollable container */}
         </div>
       </div>
     </div>
