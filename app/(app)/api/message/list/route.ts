@@ -1,6 +1,18 @@
-// api/message/list/route.ts
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+
+// Define types for message and contentItem
+interface ContentItem {
+  text?: {
+    value: string;
+  };
+  [key: string]: any; // Adjust based on actual structure if needed
+}
+
+interface Message {
+  content: ContentItem[];
+  [key: string]: any; // Adjust based on actual structure if needed
+}
 
 export async function POST(req: Request) {
   const { threadId } = await req.json();
@@ -18,14 +30,14 @@ export async function POST(req: Request) {
     const messagesResponse = await openai.beta.threads.messages.list(threadId);
     console.log("from openai messages", messagesResponse);
 
-    const messages = messagesResponse.data; // Ensure this matches your data structure
+    const messages: Message[] = messagesResponse.data; // Ensure this matches your data structure
 
-    // Remove citation markers like  from all messages
-    const sanitizedMessages = messages.map((message: any) => {
+    // Remove citation markers from all messages
+    const sanitizedMessages = messages.map((message: Message) => {
       if (Array.isArray(message.content)) {
         return {
           ...message,
-          content: message.content.map((contentItem: any) => {
+          content: message.content.map((contentItem: ContentItem) => {
             if (contentItem.text && contentItem.text.value) {
               return {
                 ...contentItem,

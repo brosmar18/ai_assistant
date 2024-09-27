@@ -1,13 +1,22 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
-import { useUser } from "@clerk/nextjs"; // Import Clerk's useUser hook
+import { useUser } from "@clerk/nextjs"; 
+
+// Define a type for annotation
+interface Annotation {
+  bold?: boolean;
+  italic?: boolean;
+  underline?: boolean;
+  code?: boolean;
+  [key: string]: any; // You can add more properties based on the actual structure of annotations
+}
 
 interface ContentItem {
   type: string;
   text: {
     value: string;
-    annotations: any[];
+    annotations: Annotation[];
   };
 }
 

@@ -6,7 +6,8 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
-import { UserButton } from "@clerk/nextjs"; // Import UserButton from Clerk
+import { UserButton } from "@clerk/nextjs"; 
+import Image from "next/image";
 
 const TopBar = () => {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,13 @@ const TopBar = () => {
         <SheetContent side="left" className="bg-green p-4">
           <SheetHeader>
             <SheetTitle className="text-lg font-bold text-primary">
-              Menu
+              <Image
+                src="/cdata_banner.png"
+                alt="Collective Data"
+                width={160}
+                height={40}
+                className="object-contain"
+              />
             </SheetTitle>
           </SheetHeader>
           <nav className="space-y-4 mt-4">
@@ -65,7 +72,10 @@ const TopBar = () => {
             placeholder="Search..."
             className="pr-10 bg-white text-primary border border-gray rounded-lg focus:ring-primary focus:border-primary"
           />
-          <Button variant="ghost" className="absolute inset-y-0 right-0 p-2 text-primary">
+          <Button
+            variant="ghost"
+            className="absolute inset-y-0 right-0 p-2 text-primary"
+          >
             <IoIosSearch className="w-5 h-5" />
           </Button>
         </div>
