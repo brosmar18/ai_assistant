@@ -6,9 +6,10 @@ import SideBar from "@/components/SideBar";
 import TopBar from "@/components/TopBar";
 import axios from "axios";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { useSetAtom, useAtom } from 'jotai';
+import { useSetAtom, useAtom } from "jotai";
 import { userThreadAtom, assistantIdAtom } from "../../state/atoms";
-import toast from 'react-hot-toast';
+import toast from "react-hot-toast";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 interface ContentItem {
   type: string;
@@ -22,12 +23,11 @@ interface Message {
   id: string;
   content: ContentItem[];
   created_at: number;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
 }
 
 interface UserThread {
   id: string; // Thread ID from OpenAI
-  // Include other properties if needed
 }
 
 const POLLING_FREQUENCY_MS = 3000;
@@ -38,6 +38,7 @@ const ChatPage = () => {
   const [userThread, setUserThreadState] = useState<UserThread | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [sending, setSending] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -49,13 +50,14 @@ const ChatPage = () => {
       return;
     }
 
-    console.log("Fetching messages for threadId:", threadId);
+    setLoading(true); // Start loading when fetching messages
 
     try {
-      const response = await axios.post<{ success: boolean; messages: Message[]; error?: string }>(
-        "/api/message/list",
-        { threadId }
-      );
+      const response = await axios.post<{
+        success: boolean;
+        messages: Message[];
+        error?: string;
+      }>("/api/message/list", { threadId });
 
       if (!response.data.success || !response.data.messages) {
         console.error(response.data.error ?? "Unknown error.");
@@ -63,12 +65,16 @@ const ChatPage = () => {
         return;
       }
 
-      const newMessages = response.data.messages.sort((a, b) => a.created_at - b.created_at);
+      const newMessages = response.data.messages.sort(
+        (a, b) => a.created_at - b.created_at
+      );
 
       setMessages(newMessages);
     } catch (error) {
       console.error("Error fetching messages:", error);
       toast.error("Failed to fetch messages.");
+    } finally {
+      setLoading(false); // Stop loading after fetching messages
     }
   }, []);
 
@@ -80,12 +86,8 @@ const ChatPage = () => {
         const thread = response.data;
 
         if (thread && thread.id) {
-          console.log("Thread ID:", thread.id);
-          // Set the userThread atom and state
           setUserThread(thread);
           setUserThreadState(thread);
-
-          // Fetch messages after getting the thread
           fetchMessages(thread.id);
         } else {
           console.error("Invalid thread data:", thread);
@@ -100,7 +102,10 @@ const ChatPage = () => {
   }, [setUserThread, fetchMessages]);
 
   // Start a Run
-  const startRun = async (threadId: string, assistantId: string): Promise<string> => {
+  const startRun = async (
+    threadId: string,
+    assistantId: string
+  ): Promise<string> => {
     try {
       const response = await axios.post<{
         success: boolean;
@@ -172,6 +177,7 @@ const ChatPage = () => {
     }
 
     setSending(true);
+    setLoading(true); // Start loading when sending message
 
     try {
       const response = await axios.post<{
@@ -180,7 +186,7 @@ const ChatPage = () => {
         error?: string;
       }>("/api/message/create", {
         message,
-        threadId: userThread.id, // Updated
+        threadId: userThread.id,
         fromUser: true,
       });
 
@@ -221,10 +227,16 @@ const ChatPage = () => {
   return (
     <div className="text-black flex h-screen">
       <SideBar />
-      {/* Main Content */}
-      <main className="flex flex-col flex-1 w-0 overflow-hidden bg-gray-700 text-white">
+      <main className="relative flex flex-col flex-1 w-0 overflow-hidden bg-gray-700 text-white">
         <TopBar />
-        <ChatWindow messages={messages} />
+        <div className="relative flex-1">
+          {loading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-40 z-10">
+              <LoadingSpinner />
+            </div>
+          )}
+          <ChatWindow messages={messages} />
+        </div>
         <MessageInput
           message={message}
           setMessage={setMessage}
