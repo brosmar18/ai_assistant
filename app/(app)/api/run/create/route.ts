@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
+import { NextRequest } from "next/server"; // Import the correct type
 import OpenAI from "openai";
 
-export async function POST(req: NextResponse) {
+export async function POST(req: NextRequest) {
   const { threadId, assistantId } = await req.json();
 
   if (!threadId || !assistantId) {
