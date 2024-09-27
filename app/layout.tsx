@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import {
   ClerkProvider,
@@ -9,7 +8,7 @@ import {
 
 
 export const metadata: Metadata = {
-  title: "Create Next App",
+  title: "User Guide Assistant",
   description: "Collective Data UserGuide Assistant",
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { IoIosSearch, IoMdMenu} from "react-icons/io";
+import { IoIosSearch, IoMdMenu } from "react-icons/io";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
@@ -14,41 +14,41 @@ const TopBar = () => {
   const toggleSheet = () => setOpen(!open);
 
   return (
-    <header className="flex items-center justify-between flex-shrink-0 p-4 bg-white border-b">
+    <header className="flex items-center justify-between p-4 bg-primary text-white border-b border-gray shadow-md h-16">
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"
-        className="md:hidden p-2"
+        className="md:hidden p-2 text-primary"
         onClick={toggleSheet}
         id="mobile-menu-button"
       >
-        <IoMdMenu className="w-6 h-6 text-black" />
+        <IoMdMenu className="w-6 h-6" />
       </Button>
 
       {/* Sidebar for Mobile */}
       <Sheet open={open} onOpenChange={toggleSheet}>
-        <SheetContent side="left" className="bg-black p-4">
+        <SheetContent side="left" className="bg-green p-4">
           <SheetHeader>
-            <SheetTitle className="text-lg font-bold text-white">
+            <SheetTitle className="text-lg font-bold text-primary">
               Menu
             </SheetTitle>
           </SheetHeader>
           <nav className="space-y-4 mt-4">
             <Link
               href="/"
-              className="block text-white text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
             >
               Dashboard
             </Link>
             <Link
               href="/messages"
-              className="block text-white  text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
             >
               Messages
             </Link>
             <Link
               href="/settings"
-              className="block text-white  text-base font-medium hover:bg-gray-200 p-2 rounded"
+              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
             >
               Settings
             </Link>
@@ -56,15 +56,17 @@ const TopBar = () => {
         </SheetContent>
       </Sheet>
 
-      <div className="flex items-center space-x-4">
+      {/* Search and Profile on the Right */}
+      <div className="hidden md:flex items-center space-x-4 ml-auto">
+        {/* Search Input with Icon */}
         <div className="relative">
           <Input
             type="text"
             placeholder="Search..."
-            className="pr-10" // Add padding for the button overlap
+            className="pr-10 bg-white text-primary border border-gray rounded-lg focus:ring-primary focus:border-primary"
           />
-          <Button variant="ghost" className="absolute inset-y-0 right-0 p-2">
-            <IoIosSearch className="w-5 h-5 text-black" />
+          <Button variant="ghost" className="absolute inset-y-0 right-0 p-2 text-primary">
+            <IoIosSearch className="w-5 h-5" />
           </Button>
         </div>
         {/* Replace Image with Clerk UserButton for account management */}

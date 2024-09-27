@@ -32,10 +32,10 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   }, [messages]);
 
   return (
-    <main className="flex-1 overflow-y-auto">
+    <main className="flex-1 overflow-y-auto bg-gray-100">
       <div className="px-4 py-6">
         {/* Messages */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           {messages.map((message) => {
             const messageTexts = message.content
               .map((contentItem) => contentItem.text.value)
@@ -46,7 +46,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
             if (message.role === 'assistant') {
               // Incoming Message (Assistant)
               return (
-                <div key={message.id} className="flex">
+                <div key={message.id} className="flex items-start">
                   <Image
                     src="/cdata_logo.png"
                     alt="Assistant Avatar"
@@ -55,8 +55,8 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
                     className="w-10 h-10 rounded-full"
                   />
                   <div className="ml-3">
-                    <div className="px-4 py-2 bg-white rounded-lg shadow">
-                      <div className="text-sm text-gray-700 prose">
+                    <div className="px-4 py-3 bg-green text-white rounded-lg shadow-2xl transform transition-transform duration-300 hover:-translate-y-1">
+                      <div className="text-sm prose">
                         <ReactMarkdown>{messageTexts}</ReactMarkdown>
                       </div>
                     </div>
@@ -67,9 +67,9 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
             } else {
               // Outgoing Message (User)
               return (
-                <div key={message.id} className="flex justify-end">
+                <div key={message.id} className="flex justify-end items-start">
                   <div className="mr-3 text-right">
-                    <div className="px-4 py-2 text-white bg-blue-600 rounded-lg shadow">
+                    <div className="px-4 py-3 bg-primary text-white rounded-lg shadow-2xl transform transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1">
                       <p className="text-sm">{messageTexts}</p>
                     </div>
                     <span className="text-xs text-gray-500">{time}</span>
