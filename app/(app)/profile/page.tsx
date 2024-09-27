@@ -4,6 +4,7 @@ import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import Link from 'next/link';
 import toast from "react-hot-toast";
+import Image from "next/image";
 
 function ProfilePage() {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -75,10 +76,12 @@ function ProfilePage() {
         {/* Profile Information */}
         <div className="bg-gray-800 rounded-xl shadow-lg p-6 mb-8 transition-all duration-300 hover:shadow-2xl">
           <div className="flex flex-col sm:flex-row items-center sm:items-start mb-6">
-            <img
+          <Image
               src={user.imageUrl}
               alt={`${user.firstName || "Anonymous"} ${user.lastName || "User"}`}
-              className="w-32 h-32 rounded-full mb-4 sm:mb-0 sm:mr-6 border-4 border-green-500 shadow-md transition-transform duration-300 hover:scale-105"
+              width={128} 
+              height={128} 
+              className="rounded-full mb-4 sm:mb-0 sm:mr-6 border-4 border-green-500 shadow-md transition-transform duration-300 hover:scale-105"
             />
             <div className="text-center sm:text-left">
               <h2 className="text-2xl sm:text-3xl font-semibold mb-2 text-green">

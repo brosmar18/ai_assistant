@@ -16,7 +16,7 @@ const MessageInput = ({
   sending,
 }: MessageInputProps) => {
   return (
-    <div className="p-4 border-t border-gray">
+    <div className="p-4 border-t border-gray text-black">
       <div className="flex">
         <input
           type="text"

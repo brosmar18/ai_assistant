@@ -2,6 +2,8 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+// Disable the rule for this interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
