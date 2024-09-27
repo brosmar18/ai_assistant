@@ -43,7 +43,7 @@ export async function POST(req: Request) {
                 ...contentItem,
                 text: {
                   ...contentItem.text,
-                  value: contentItem.text.value.replace(/【\d+:\d+†source】/g, ''),
+                  value: contentItem.text.value.replace(/【\d+(?:[:：]\d+)?†source】/g, ''),
                 },
               };
             }
@@ -53,6 +53,8 @@ export async function POST(req: Request) {
       }
       return message;
     });
+
+    console.log("Sanitized messages:", sanitizedMessages); // Log to ensure it's correct
 
     return NextResponse.json({ messages: sanitizedMessages, success: true }, { status: 200 });
   } catch (error) {
