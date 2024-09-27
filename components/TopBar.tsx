@@ -14,7 +14,7 @@ const TopBar = () => {
   const toggleSheet = () => setOpen(!open);
 
   return (
-    <header className="flex items-center justify-between p-4 bg-primary text-white border-b border-gray shadow-md h-16">
+    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white shadow-lg border-b-4 border-green-500 h-16">
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"

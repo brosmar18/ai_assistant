@@ -32,7 +32,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
   }, [messages]);
 
   return (
-    <main className="flex-1 overflow-y-auto bg-gray-100">
+    <div className="flex-1 overflow-y-auto bg-gray-800 text-white">
       <div className="px-4 py-6">
         {/* Messages */}
         <div className="space-y-6">
@@ -47,20 +47,20 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               // Incoming Message (Assistant)
               return (
                 <div key={message.id} className="flex items-start">
-                  <Image
-                    src="/cdata_logo.png"
-                    alt="Assistant Avatar"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 rounded-full"
-                  />
+                    <Image
+                      src="/cdata_logo.png"
+                      alt="Assistant Avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
                   <div className="ml-3">
-                    <div className="px-4 py-3 bg-green text-white rounded-lg shadow-2xl transform transition-transform duration-300 hover:-translate-y-1">
+                    <div className="px-4 py-3 bg-white text-white rounded-xl shadow-lg shadow-gray-500/50">
                       <div className="text-sm prose">
                         <ReactMarkdown>{messageTexts}</ReactMarkdown>
                       </div>
                     </div>
-                    <span className="text-xs text-gray-500">{time}</span>
+                    <span className="text-xs text-gray-300">{time}</span>
                   </div>
                 </div>
               );
@@ -69,18 +69,18 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
               return (
                 <div key={message.id} className="flex justify-end items-start">
                   <div className="mr-3 text-right">
-                    <div className="px-4 py-3 bg-primary text-white rounded-lg shadow-2xl transform transition-transform duration-300 hover:-translate-y-1 hover:translate-x-1">
+                    <div className="px-4 py-3 bg-primary text-white rounded-xl shadow-lg shadow-gray-500/50">
                       <p className="text-sm">{messageTexts}</p>
                     </div>
-                    <span className="text-xs text-gray-500">{time}</span>
+                    <span className="text-xs text-gray-300">{time}</span>
                   </div>
-                  <Image
-                    src={user?.imageUrl || "/user_avatar.png"} // Dynamically set user's avatar
-                    alt="User Avatar"
-                    width={40}
-                    height={40}
-                    className="w-10 h-10 rounded-full"
-                  />
+                    <Image
+                      src={user?.imageUrl || "/user_avatar.png"} // Dynamically set user's avatar
+                      alt="User Avatar"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
                 </div>
               );
             }
@@ -88,7 +88,7 @@ const ChatWindow = ({ messages }: ChatWindowProps) => {
           <div ref={messagesEndRef} />
         </div>
       </div>
-    </main>
+    </div>
   );
 };
 

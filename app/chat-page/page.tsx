@@ -222,7 +222,7 @@ const ChatPage = () => {
     <div className="text-black flex h-screen">
       <SideBar />
       {/* Main Content */}
-      <main className="flex flex-col flex-1 w-0 overflow-hidden">
+      <main className="flex flex-col flex-1 w-0 overflow-hidden bg-gray-700 text-white">
         <TopBar />
         <ChatWindow messages={messages} />
         <MessageInput
