@@ -8,18 +8,20 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
 import { UserButton } from "@clerk/nextjs"; 
 import Image from "next/image";
+import { usePathname } from 'next/navigation';
 
 const TopBar = () => {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
 
   const toggleSheet = () => setOpen(!open);
 
   return (
-    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white shadow-lg border-b-4 border-green-500 h-16">
+    <header className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white shadow-md border-b-2 border-green h-16">
       {/* Mobile Menu Button */}
       <Button
         variant="ghost"
-        className="md:hidden p-2 text-primary"
+        className="md:hidden p-2 text-green"
         onClick={toggleSheet}
         id="mobile-menu-button"
       >
@@ -28,36 +30,45 @@ const TopBar = () => {
 
       {/* Sidebar for Mobile */}
       <Sheet open={open} onOpenChange={toggleSheet}>
-        <SheetContent side="left" className="bg-green p-4">
-          <SheetHeader>
-            <SheetTitle className="text-lg font-bold text-primary">
+        <SheetContent
+          side="left"
+          className="w-72 bg-gradient-to-b from-gray-700 via-gray-800 to-gray-900 text-white shadow-xl flex flex-col"
+        >
+          {/* Sidebar Header */}
+          <SheetHeader className="flex items-center justify-end p-4 bg-gradient-to-r from-gray-700 via-gray-800 to-gray-900 text-white shadow-lg border-b-2 border-gray relative mt-5">
+            <div className="flex-1 flex items-center">
               <Image
                 src="/cdata_banner.png"
                 alt="Collective Data"
-                width={160}
-                height={40}
+                width={140}
+                height={35}
                 className="object-contain"
               />
-            </SheetTitle>
+            </div>
           </SheetHeader>
-          <nav className="space-y-4 mt-4">
+
+          {/* Sidebar Content */}
+          <nav className="flex-1 px-4 py-6 space-y-6 overflow-y-auto">
+            {/* Chat Link */}
             <Link
               href="/"
-              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out
+                ${pathname === '/' 
+                  ? 'bg-primary text-white shadow-lg transform translate-x-1 -translate-y-1' 
+                  : 'bg-green text-primary hover:bg-primary hover:text-white hover:shadow-lg'}`}
             >
-              Dashboard
+              Chat
             </Link>
+
+            {/* Profile Link */}
             <Link
-              href="/messages"
-              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
+              href="/profile"
+              className={`flex items-center px-3 py-2 text-sm font-medium rounded-lg transition duration-300 ease-in-out
+                ${pathname === '/profile' 
+                  ? 'bg-primary text-white shadow-lg transform translate-x-1 -translate-y-1' 
+                  : 'bg-green text-primary hover:bg-primary hover:text-white hover:shadow-lg'}`}
             >
-              Messages
-            </Link>
-            <Link
-              href="/settings"
-              className="block text-primary text-base font-medium hover:bg-primary hover:text-white p-2 rounded transition"
-            >
-              Settings
+              Profile
             </Link>
           </nav>
         </SheetContent>
@@ -79,7 +90,6 @@ const TopBar = () => {
             <IoIosSearch className="w-5 h-5" />
           </Button>
         </div>
-        {/* Replace Image with Clerk UserButton for account management */}
         <UserButton />
       </div>
     </header>
